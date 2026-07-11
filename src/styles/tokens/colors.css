@@ -1,0 +1,65 @@
+/* Ariko Studio — Color tokens
+   "Colorful but elegant": color is carried by large calm blocks (like fields on a
+   crochet blanket); type and spacing stay quiet. */
+
+:root {
+  /* ---- Neutrals / canvas ---- */
+  --oat: #F4EBDD;      /* default page floor — warm */
+  --cream: #FBF6EC;    /* lighter surface, cards, brand tile */
+  --surface-strong: #EDE2CD; /* emphasized warm band (Clay-derived surface-strong) */
+  --line: #D8CBB6;     /* hairline borders, dividers */
+
+  /* ---- Pale color-block fields (large calm sections) ---- */
+  --pale-sage: #E5E9D7;
+  --pale-clay: #F3DDD2;
+  --pale-teal: #DCE7E4;
+  --pale-ochre: #F5E8C6;
+
+  /* ---- Saturated brand colors (granny squares, accents, pills) ---- */
+  --clay: #CC8264;
+  --ochre: #D6A748;
+  --sage: #93A36F;
+  --teal: #6E9B95;
+  --berry: #8A4A66;        /* eyebrow labels, primary accent */
+  --berry-deep: #6E3A52;   /* dark reviews band, hover */
+
+  /* ---- Ink / text ---- */
+  --ink: #33291F;          /* headlines, primary text */
+  --ink-soft: #5B4F42;     /* body, secondary text */
+
+  /* ================= Semantic aliases ================= */
+  --canvas: var(--oat);
+  --surface: var(--cream);
+  --surface-card: var(--cream);
+  --hairline: var(--line);
+
+  --text: var(--ink);
+  --text-body: var(--ink-soft);
+  --text-eyebrow: var(--berry);
+  --text-on-dark: var(--cream);
+  --text-on-accent: #ffffff;
+
+  --accent: var(--berry);          /* brand primary accent */
+  --accent-hover: var(--berry-deep);
+
+  /* Per bag-style accents (each of the 4 styles owns one) */
+  --accent-clutch: var(--berry);
+  --accent-fringe: var(--teal);
+  --accent-crossbody: var(--clay);
+  --accent-mini: var(--ochre);
+
+  /* Buttons */
+  --btn-primary-bg: var(--berry);
+  --btn-primary-bg-hover: var(--berry-deep);
+  --btn-primary-fg: #ffffff;
+  --btn-secondary-border: var(--ink);
+  --btn-secondary-fg: var(--ink);
+
+  /* Dark band (reviews / footer) */
+  --band-dark: var(--berry-deep);
+  --footer-bg: var(--ink);
+  /* Warm cream footer — the Clay "never-dark footer" option (keeps pages warm
+     throughout). Use FooterBlock variant="warm" to close on cream instead of ink. */
+  --footer-bg-warm: var(--surface-strong);
+  --footer-fg-warm: var(--ink-soft);
+}

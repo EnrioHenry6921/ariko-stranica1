@@ -1,0 +1,38 @@
+/* Ariko Studio — Effects: shadows, stitch texture, motion.
+   Depth is soft and warm; no heavy drop shadows. */
+
+:root {
+  /* Soft warm shadows (warm-tinted, never gray) */
+  --shadow-soft: 0 2px 8px rgba(51, 41, 31, 0.06);
+  --shadow-card: 0 6px 20px rgba(51, 41, 31, 0.08);
+  --shadow-hover: 0 12px 32px rgba(51, 41, 31, 0.12);
+
+  /* Motion — subtle, orchestrated */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);  /* @kind other */
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);       /* @kind other */
+  --dur-fast: 180ms;   /* @kind other */
+  --dur-base: 320ms;   /* @kind other */
+  --dur-slow: 560ms;   /* @kind other */
+
+  /* Stitch texture — two crossed low-opacity lines, used on COLORED blocks only.
+     Apply via: background-image: var(--stitch); background-size: 7px 7px; */
+  --stitch:
+    repeating-linear-gradient(45deg,  rgba(255,255,255,0.10) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(-45deg, rgba(51,41,31,0.05) 0 1px, transparent 1px 6px); /* @kind other */
+  --stitch-size: 7px 7px;  /* @kind other */
+}
+
+/* Utility: apply stitch texture on a colored surface. Never over photos. */
+.ariko-stitch {
+  background-image: var(--stitch);
+  background-size: var(--stitch-size);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

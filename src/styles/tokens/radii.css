@@ -1,0 +1,10 @@
+/* Ariko Studio — Radii tokens.
+   Cards/blocks 16–22px; buttons fully pill (999px). */
+
+:root {
+  --radius-sm: 8px;     /* chips, small controls */
+  --radius-md: 12px;    /* inputs, swatches */
+  --radius-lg: 16px;    /* cards */
+  --radius-xl: 22px;    /* large color blocks, feature tiles */
+  --radius-pill: 999px; /* buttons, price pills, badges */
+}

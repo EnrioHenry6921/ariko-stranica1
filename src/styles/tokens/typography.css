@@ -1,0 +1,43 @@
+/* Ariko Studio — Typography tokens
+   Display/headings: Fraunces (soft characterful serif, variable optical size)
+   Body/UI: Work Sans
+   Eyebrow labels: uppercase, wide tracking, --berry. */
+
+:root {
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Fraunces optical-size + slant helpers */
+  --fraunces-soft: "opsz" 144, "SOFT" 60, "WONK" 0; /* @kind other */
+
+  /* ---- Weights ---- */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ---- Display scale (Fraunces) ---- */
+  --display-xl: 4.5rem;    /* 72px — hero h1 */
+  --display-lg: 3.25rem;   /* 52px — section heads */
+  --display-md: 2.25rem;   /* 36px — sub-section, card titles */
+  --display-sm: 1.5rem;    /* 24px — small heads */
+
+  --lh-display: 1.05;   /* @kind other */
+  --ls-display: -0.015em; /* @kind other */
+
+  /* ---- Body scale (Work Sans) ---- */
+  --text-lg: 1.25rem;      /* 20px — lead paragraphs */
+  --text-md: 1rem;         /* 16px — default body */
+  --text-sm: 0.875rem;     /* 14px — captions, fine print */
+  --text-xs: 0.75rem;      /* 12px */
+
+  --lh-body: 1.6;   /* @kind other */
+  --lh-tight: 1.4;  /* @kind other */
+
+  /* ---- Eyebrow ---- */
+  --eyebrow-size: 0.75rem;         /* 12px */
+  --eyebrow-weight: 600;
+  --eyebrow-tracking: 0.22em;      /* @kind other */
+  --eyebrow-transform: uppercase;  /* @kind other */
+}

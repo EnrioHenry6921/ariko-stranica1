@@ -1,0 +1,16 @@
+/* Ariko Studio — Spacing tokens. Base unit 4px. */
+
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-section: 96px;   /* vertical rhythm between major bands */
+
+  --container: 1200px;      /* max content width, centered */
+  --container-narrow: 720px;
+}

@@ -1,0 +1,17 @@
+/* Ariko Studio — Semantic status tokens.
+   Clay defines success/warning/error; here they are re-tuned to Ariko's warm,
+   earthy palette (olive-green, brand ochre, warm brick) so validation states
+   never feel like generic web red/green against the oat canvas. */
+
+:root {
+  --success: #6F9A5A;       /* warm olive-green (kin to --sage) */
+  --success-soft: #E3ECD6;  /* pale success wash */
+  --warning: var(--ochre);  /* brand ochre doubles as warning */
+  --warning-soft: #F5E8C6;  /* == --pale-ochre */
+  --error: #B5493C;         /* warm brick red, not neon */
+  --error-soft: #F3DAD3;    /* pale error wash */
+
+  --status-success: var(--success);
+  --status-warning: var(--warning);
+  --status-error: var(--error);
+}
