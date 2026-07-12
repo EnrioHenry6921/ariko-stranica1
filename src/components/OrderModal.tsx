@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ORDER_EMAIL } from "@/lib/configuratorData";
+import { ORDER_EMAIL, FORMSUBMIT_TARGET } from "@/lib/configuratorData";
 import { Button, LinkButton } from "./ui/Button";
 
 export interface OrderDetails {
@@ -140,22 +140,45 @@ export function OrderModal({ open, onClose, lang, accent, total, waHref, order }
     if (!validate()) return;
     mailtoRef.current = buildMailto();
     setStatus("sending");
+
+    // Flat key/value payload for FormSubmit's email relay (no backend needed).
+    const payload: Record<string, string> = {
+      _subject: `${lang === "en" ? "New order" : "Nova narudžba"} — ${firstName} ${lastName} · ${order.bag}`,
+      _template: "table",
+      _captcha: "false",
+      _honey: company, // FormSubmit honeypot
+      _replyto: email,
+      [lang === "en" ? "First name" : "Ime"]: firstName,
+      [lang === "en" ? "Last name" : "Prezime"]: lastName,
+      Email: email,
+      [lang === "en" ? "Phone" : "Telefon"]: phone,
+      [lang === "en" ? "Address" : "Adresa"]: address,
+      [lang === "en" ? "City" : "Grad"]: city,
+      [lang === "en" ? "Postal code" : "Poštanski broj"]: postalCode,
+      [lang === "en" ? "Country" : "Država"]: country,
+      Model: order.bag,
+      [lang === "en" ? "Size" : "Veličina"]: order.size,
+      [lang === "en" ? "Colors" : "Boje"]: order.colors,
+      Metal: order.metal,
+      [lang === "en" ? "Strap" : "Naramenica"]: order.strap,
+      [lang === "en" ? "Insert" : "Umetak"]: order.insert,
+      [lang === "en" ? "Charms" : "Privjesci"]: order.charms,
+      [lang === "en" ? "Note" : "Napomena"]: order.note,
+      [lang === "en" ? "Total (€)" : "Ukupno (€)"]: String(total),
+      [lang === "en" ? "Message" : "Poruka"]: message || "—",
+    };
+
     try {
-      const res = await fetch("/api/order", {
+      const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(FORMSUBMIT_TARGET)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          customer: { firstName, lastName, email, phone, address, city, postalCode, country },
-          order: { ...order, total },
-          message,
-          company,
-        }),
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
       });
-      const json = await res.json().catch(() => ({ ok: false }));
-      if (json.ok) {
+      const json = await res.json().catch(() => null);
+      if (res.ok && json && (json.success === "true" || json.success === true)) {
         setStatus("sent");
       } else {
-        // No server mailer (or a soft failure) — fall back to the customer's email app.
+        // Relay unreachable/refused — fall back to the customer's email app.
         setStatus("fallback");
         window.location.href = mailtoRef.current;
       }

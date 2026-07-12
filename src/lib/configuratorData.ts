@@ -94,11 +94,18 @@ export const charmDefs = [
 export const CHARM_MOD = 4;
 export const WA_NUMBER = "385955612182";
 
-// Where orders are sent. The server route (app/api/order) also honours the
-// ORDER_TO_EMAIL env var; this constant is the mailto fallback used in the
-// browser when the server has no mailer configured. Change it here (and the env
-// var) when the destination address changes.
+// Where orders are sent. Used for the mailto fallback and, by default, as the
+// FormSubmit relay target below. Change it when the destination changes.
 export const ORDER_EMAIL = "henryknez4@gmail.com";
+
+// The order form posts straight to FormSubmit.co (https://formsubmit.co) — a
+// free form-to-email relay, so the site needs no backend to send orders.
+//
+// One-time setup: the first submission triggers an activation email to this
+// address; click the link once and delivery is on. After activating you can
+// replace the email below with the random alias FormSubmit gives you, to keep
+// the address out of the page source.
+export const FORMSUBMIT_TARGET = ORDER_EMAIL;
 
 // One metal finish drives every metal part: ARIKO plate, clasp, and charms.
 export const metals = {
