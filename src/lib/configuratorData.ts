@@ -94,6 +94,12 @@ export const charmDefs = [
 export const CHARM_MOD = 4;
 export const WA_NUMBER = "385955612182";
 
+// Where orders are sent. The server route (app/api/order) also honours the
+// ORDER_TO_EMAIL env var; this constant is the mailto fallback used in the
+// browser when the server has no mailer configured. Change it here (and the env
+// var) when the destination address changes.
+export const ORDER_EMAIL = "henryknez4@gmail.com";
+
 // One metal finish drives every metal part: ARIKO plate, clasp, and charms.
 export const metals = {
   gold: { grad: "linear-gradient(#E4BD6A, #C79433)", solid: "#C79433", stroke: "#8A6A24", plateText: "#3A2F14", hr: "Zlatna", en: "Gold" },

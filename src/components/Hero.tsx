@@ -4,6 +4,7 @@ import { useLang } from "@/lib/LangProvider";
 import { Eyebrow } from "./ui/Eyebrow";
 import { LinkButton } from "./ui/Button";
 import { PlaceholderTile } from "./ui/PlaceholderTile";
+import { FloatingOrbs } from "./ui/FloatingDecor";
 
 export function Hero() {
   const { lang, t } = useLang();
@@ -11,6 +12,7 @@ export function Hero() {
 
   return (
     <section id="vrh" className="hero">
+      <FloatingOrbs />
       <div className="hero__grid">
         <div data-reveal="hero" data-i="0" className="hero__panel">
           <Eyebrow>Ariko Studio</Eyebrow>

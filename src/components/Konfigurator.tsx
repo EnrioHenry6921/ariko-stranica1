@@ -13,6 +13,22 @@ import { Badge } from "./ui/Badge";
 import { Button, LinkButton } from "./ui/Button";
 import { CharmGlyph } from "./ui/charmIcons";
 import { PlaceholderTile } from "./ui/PlaceholderTile";
+import { OrderModal, type OrderDetails } from "./OrderModal";
+import { FloatingOrbs, DraggableYarn } from "./ui/FloatingDecor";
+
+// Fixed scatter spots (x%, y%) for hanging charms — spread out, avoiding the
+// centre insert band and the ARIKO plate at the bottom.
+const CHARM_SPOTS = [
+  { x: 19, y: 32 }, { x: 81, y: 30 }, { x: 24, y: 55 },
+  { x: 76, y: 52 }, { x: 50, y: 63 }, { x: 15, y: 45 },
+  { x: 85, y: 44 }, { x: 33, y: 24 }, { x: 67, y: 22 },
+];
+// Flap bags (Birkin/Kelly): the flap covers the top, so hang the charms lower.
+const CHARM_SPOTS_FLAP = [
+  { x: 20, y: 52 }, { x: 80, y: 50 }, { x: 32, y: 66 },
+  { x: 68, y: 64 }, { x: 50, y: 56 }, { x: 16, y: 60 },
+  { x: 84, y: 58 }, { x: 42, y: 48 }, { x: 60, y: 48 },
+];
 
 const T = {
   hr: {
@@ -25,7 +41,7 @@ const T = {
     charms: "Privjesci · +€4 po privjesku (više odabira)",
     customCharmLabel: "Koji privjesak želiš?", customCharmPh: "npr. slovo A, srebrna zvjezdica…",
     wishes: "Posebne želje", wishesPh: "npr. inicijali na privjesku, tamnija podstava…",
-    order: "Naruči i plati", whatsapp: "Dogovori na WhatsApp",
+    order: "Naruči", whatsapp: "Dogovori na WhatsApp",
     protoLabel: "Prototip:", stripeNote: "ovdje se otvara Stripe Checkout (kartice, Apple Pay, Google Pay). Cijena se prije naplate ponovno izračunava na serveru iz odabranih opcija — iznos iz preglednika se ne koristi.",
     orLine: "Ili: Instagram @arikostudio · hello@arikostudio.hr",
     examplesLabel: "Primjeri izrade", examplePh: "Primjer",
@@ -42,7 +58,7 @@ const T = {
     charms: "Charms · +€4 each (multi-select)",
     customCharmLabel: "Which charm would you like?", customCharmPh: "e.g. letter A, a small silver star…",
     wishes: "Special requests", wishesPh: "e.g. initials on the charm, darker lining…",
-    order: "Order & pay", whatsapp: "Arrange on WhatsApp",
+    order: "Order", whatsapp: "Arrange on WhatsApp",
     protoLabel: "Prototype:", stripeNote: "this opens Stripe Checkout (cards, Apple Pay, Google Pay). The price is recalculated server-side from the selected options before charging — the browser amount is never trusted.",
     orLine: "Or: Instagram @arikostudio · hello@arikostudio.hr",
     examplesLabel: "Made examples", examplePh: "Example",
@@ -75,7 +91,7 @@ export function Konfigurator() {
   const [charms, setCharms] = useState<CharmId[]>([]);
   const [customCharm, setCustomCharm] = useState("");
   const [note, setNote] = useState("");
-  const [stripeNote, setStripeNote] = useState(false);
+  const [orderOpen, setOrderOpen] = useState(false);
 
   const bag = configBags[bagSlug];
   const shape = shapes[bag.shape];
@@ -132,6 +148,17 @@ export function Konfigurator() {
     ? `${chipName} · ${colorsLabel} · ${t.metalWord}: ${metalLabel}`
     : `${chipName} · ${sizeDef[lang]} · ${colorsLabel} · ${t.metalWord}: ${metalLabel} · ${t.strapWord}: ${strapDef[lang]} · ${t.insertWord}: ${insertDef[lang]}`;
 
+  const orderDetails: OrderDetails = {
+    bag: chipName,
+    size: isPremium ? "—" : sizeDef[lang],
+    colors: colorsLabel,
+    metal: metalLabel,
+    strap: isPremium ? "—" : strapDef[lang],
+    insert: isPremium ? "—" : insertDef[lang],
+    charms: charms.map(charmLabel).join(", ") || "—",
+    note: note || "—",
+  };
+
   const waHref = useMemo(() => {
     const lines = [t.waIntro, `• ${bag[lang]}`];
     if (!isPremium) {
@@ -158,16 +185,18 @@ export function Konfigurator() {
   const bagW = Math.round(shape.w * f);
   const bagH = Math.round(shape.h * f);
 
-  // Bag body fill: solid for one color, horizontal stripes for 2–3.
+  // Bag body fill: solid for one color; for 2–3 colors, crisp repeating knit
+  // rows (thin stripes) rather than big blocks — reads as a striped crochet bag.
+  const stripeUnit = 15; // px height of each colour row
   const stripeGradient =
     colorHexes.length > 1
-      ? `linear-gradient(180deg, ${colorHexes
-          .map((c, i) => `${c} ${((i * 100) / colorHexes.length).toFixed(2)}% ${(((i + 1) * 100) / colorHexes.length).toFixed(2)}%`)
+      ? `repeating-linear-gradient(180deg, ${colorHexes
+          .map((c, i) => `${c} ${i * stripeUnit}px, ${c} ${(i + 1) * stripeUnit}px`)
           .join(", ")})`
       : null;
   const dotLayer = "radial-gradient(circle at 4px 4px, rgba(255,255,255,0.14) 2.2px, rgba(255,255,255,0) 3.2px)";
   const bagBgImage = [dotLayer, "var(--stitch)", ...(stripeGradient ? [stripeGradient] : [])].join(", ");
-  const bagBgSize = ["11px 11px", "7px 7px", "7px 7px", ...(stripeGradient ? ["100% 100%"] : [])].join(", ");
+  const bagBgSize = ["11px 11px", "7px 7px", "7px 7px", ...(stripeGradient ? ["auto"] : [])].join(", ");
 
   const hasChain = !!shape.chain;
   const showAnyStrap = showStrap || hasChain;
@@ -192,13 +221,15 @@ export function Konfigurator() {
   const fringeH = Math.round(30 * f);
   const fringeW = Math.round(bagW * 0.9);
 
-  // Charms hang below the flap / slot so they never sit over the opening.
-  const charmAnchorTop = shape.flap ? "44%" : shape.slot ? "27%" : "13%";
+  // Charms are scattered across the bag face at fixed, spread-out spots so they
+  // never clump together or cover the opening / plate.
   const glyphSize = Math.max(13, Math.round(15 * f));
+  const charmSpots = shape.flap ? CHARM_SPOTS_FLAP : CHARM_SPOTS;
 
-  // Hand insert sits clear of the opening slot.
-  const insertTop = shape.slot ? "64%" : "50%";
-  const insertH = Math.max(12, Math.round(bagH * 0.1));
+  // Hand insert — a recessed reach-through opening in the upper body, clear of
+  // the top slot and the ARIKO plate.
+  const insertTop = shape.slot ? "40%" : "34%";
+  const insertH = Math.max(14, Math.round(bagH * 0.1));
 
   const modelChips = (group: "classic" | "premium") =>
     Object.entries(configBags)
@@ -219,9 +250,11 @@ export function Konfigurator() {
         <div className="konf-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 48, marginTop: 12 }}>
           {/* Left: live preview */}
           <div className="konf-preview-col">
-            <div style={{ background: "var(--cream)", borderRadius: "var(--radius-xl)", padding: "40px 40px 48px", boxShadow: "var(--shadow-card)", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ position: "relative", overflow: "hidden", background: "var(--cream)", borderRadius: "var(--radius-xl)", padding: "40px 40px 48px", boxShadow: "var(--shadow-card)", display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <FloatingOrbs />
+              <DraggableYarn color={primaryHex} size={46} start={{ x: 14, y: 14 }} hint={lang === "en" ? "Drag me around!" : "Povuci me!"} />
               {/* Straps + handles */}
-              <div style={{ height: topAreaH, position: "relative", width: "100%", transition: "height var(--dur-base) var(--ease-soft)" }}>
+              <div style={{ height: topAreaH, position: "relative", zIndex: 1, width: "100%", transition: "height var(--dur-base) var(--ease-soft)" }}>
                 {showAnyStrap && (
                   <svg width={strapSvgW} height={strapSvgH} viewBox={`0 0 ${strapSvgW} ${strapSvgH}`} style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", overflow: "visible" }} aria-hidden="true">
                     <path d={strapPath} fill="none" stroke={strapStroke} strokeWidth={strapThick} strokeLinecap="round" style={{ transition: "stroke var(--dur-base) var(--ease-soft)" }} />
@@ -241,7 +274,7 @@ export function Konfigurator() {
               </div>
 
               {/* Bag body */}
-              <div style={{ position: "relative", display: "flex", justifyContent: "center" }}>
+              <div className="preview-bob" style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "center" }}>
                 {!shape.fringe && (
                   <div style={{ position: "absolute", left: "12%", right: "12%", bottom: -12, height: 18, background: "radial-gradient(ellipse at center, rgba(51,41,31,0.22), transparent 72%)", filter: "blur(3px)", zIndex: 0 }} />
                 )}
@@ -267,9 +300,9 @@ export function Konfigurator() {
                     <div style={{ position: "absolute", top: "14%", left: "50%", transform: "translateX(-50%)", width: "46%", height: 14, borderRadius: 10, background: "rgba(0,0,0,0.16)", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.2)" }} />
                   )}
 
-                  {/* Hand insert — a raised grab strap, clear of the opening */}
+                  {/* Hand insert — a recessed reach-through opening you slip a hand through */}
                   {showInsert && (
-                    <div style={{ position: "absolute", top: insertTop, left: "50%", transform: "translate(-50%, -50%)", width: "46%", height: insertH, borderRadius: 999, backgroundColor: primaryHex, backgroundImage: "linear-gradient(rgba(255,255,255,0.28), rgba(0,0,0,0.16))", boxShadow: "0 4px 7px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.4)", zIndex: 2 }} />
+                    <div aria-hidden="true" style={{ position: "absolute", top: insertTop, left: "50%", transform: "translate(-50%, -50%)", width: "50%", height: insertH, borderRadius: 999, background: "linear-gradient(180deg, rgba(0,0,0,0.34), rgba(0,0,0,0.14))", boxShadow: "inset 0 3px 7px rgba(0,0,0,0.45), inset 0 -2px 3px rgba(255,255,255,0.16), 0 1px 0 rgba(255,255,255,0.22)", zIndex: 2 }} />
                   )}
 
                   {/* Clasp — follows the metal finish */}
@@ -277,17 +310,19 @@ export function Konfigurator() {
                     <div style={{ position: "absolute", top: "38%", left: "50%", transform: "translate(-50%, -45%)", width: 16, height: 20, borderRadius: 4, background: metalDef.grad, boxShadow: `0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4)`, transition: "background var(--dur-base) var(--ease-soft)", zIndex: 3 }} />
                   )}
 
-                  {/* Charms hanging on the bag front */}
-                  {charms.length > 0 && (
-                    <div style={{ position: "absolute", top: charmAnchorTop, left: 0, right: 0, display: "flex", justifyContent: "center", alignItems: "flex-start", gap: 4, pointerEvents: "none", zIndex: 3 }}>
-                      {charms.map((c, i) => (
-                        <div key={c} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                          <div style={{ width: 1.5, height: 7 + (i % 3) * 6, background: metalDef.stroke, opacity: 0.8 }} />
+                  {/* Charms scattered across the bag front, each on its own thread */}
+                  {charms.map((c, i) => {
+                    const spot = charmSpots[i % charmSpots.length];
+                    const thread = 6 + (i % 3) * 5;
+                    return (
+                      <div key={c} className="charm-hang" style={{ position: "absolute", top: `${spot.y}%`, left: `${spot.x}%`, transform: "translate(-50%, -50%)", display: "flex", flexDirection: "column", alignItems: "center", pointerEvents: "none", zIndex: 3, animationDelay: `${(i % 5) * 0.4}s` }}>
+                        <div style={{ width: 1.5, height: thread, background: metalDef.stroke, opacity: 0.85, borderRadius: 1 }} />
+                        <div style={{ filter: "drop-shadow(0 1px 1.5px rgba(0,0,0,0.35))" }}>
                           <CharmGlyph id={c} color={metalDef.solid} stroke={metalDef.stroke} size={glyphSize} initial={customCharm || "A"} />
                         </div>
-                      ))}
-                    </div>
-                  )}
+                      </div>
+                    );
+                  })}
 
                   {/* ARIKO plate — follows the metal finish */}
                   <div style={{ position: "absolute", bottom: "12%", left: "50%", transform: "translateX(-50%)", padding: "3px 10px", borderRadius: 3, background: metalDef.grad, color: metalDef.plateText, fontFamily: "var(--font-body)", fontSize: 9, fontWeight: 700, letterSpacing: "0.2em", boxShadow: "0 1px 2px rgba(0,0,0,0.2)", transition: "background var(--dur-base) var(--ease-soft), color var(--dur-base) var(--ease-soft)", zIndex: 4 }}>
@@ -309,7 +344,7 @@ export function Konfigurator() {
 
               {/* Color chips + charm labels under the bag */}
               {(colors.length > 1 || charms.length > 0) && (
-                <div style={{ marginTop: 22, display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+                <div style={{ position: "relative", zIndex: 1, marginTop: 22, display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
                   {colors.length > 1 &&
                     colorDefs.map((c, i) => (
                       <span key={`c${i}`} title={colorLabels[i]} style={{ width: 18, height: 18, borderRadius: "50%", background: c[0], boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.15)" }} />
@@ -483,22 +518,27 @@ export function Konfigurator() {
             </div>
 
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-              <Button accent={bag.accent} size="lg" onClick={() => setStripeNote(true)}>
+              <Button accent={bag.accent} size="lg" onClick={() => setOrderOpen(true)}>
                 {t.order} · €{total}
               </Button>
               <LinkButton href={waHref} target="_blank" rel="noreferrer" variant="secondary" size="lg">
                 {t.whatsapp}
               </LinkButton>
             </div>
-            {stripeNote && (
-              <div style={{ marginTop: 14, padding: "14px 16px", background: "var(--pale-ochre)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-body)", fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6, maxWidth: 520 }}>
-                <b style={{ color: "var(--ink)" }}>{t.protoLabel}</b> {t.stripeNote}
-              </div>
-            )}
             <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--ink-soft)", margin: "16px 0 0" }}>{t.orLine}</p>
           </div>
         </div>
       </div>
+
+      <OrderModal
+        open={orderOpen}
+        onClose={() => setOrderOpen(false)}
+        lang={lang}
+        accent={bag.accent}
+        total={total}
+        waHref={waHref}
+        order={orderDetails}
+      />
     </main>
   );
 }
