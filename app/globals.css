@@ -542,6 +542,16 @@ img { max-width: 100%; }
 }
 .order-modal__close:hover { background: var(--surface-strong); color: var(--ink); }
 .order-modal__title { font-family: var(--font-display); font-weight: 500; color: var(--ink); font-size: 1.7rem; letter-spacing: var(--ls-display); margin: 0 0 6px; line-height: 1.1; }
+.order-modal__confirm-note {
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  background: var(--pale-ochre);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
 .order-modal__intro { font-family: var(--font-body); font-size: 14px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 20px; max-width: 44ch; }
 .order-modal__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; }
 .order-modal__field--full { grid-column: 1 / -1; }

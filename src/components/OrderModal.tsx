@@ -35,8 +35,9 @@ const M = {
     summary: "Sažetak narudžbe", total: "Ukupno",
     submit: "Pošalji narudžbu", sending: "Šaljem…", cancel: "Odustani",
     required: "Ovo polje je obavezno.", badEmail: "Provjeri email adresu.",
-    sentTitle: "Hvala ti!", sentBody: "Narudžba je zaprimljena. Ariana ti se javlja uskoro na email ili telefon.",
-    fallbackTitle: "Skoro gotovo!", fallbackBody: "Otvorili smo tvoju e-poštu s pripremljenom narudžbom — samo je pošalji. Ako se nije otvorila, kopiraj podatke ili nas kontaktiraj na WhatsApp.",
+    confirmNote: "Nakon narudžbe Ariana ti se javlja putem WhatsAppa ili emaila kako bi potvrdila sve detalje i provjerila da je sve točno prije izrade.",
+    sentTitle: "Hvala ti!", sentBody: "Narudžba je zaprimljena i poslana Ariani. Uskoro ti se javlja putem WhatsAppa ili emaila kako bi potvrdila sve detalje i provjerila da je sve točno.",
+    fallbackTitle: "Skoro gotovo!", fallbackBody: "Slanje trenutno nije uspjelo, pa smo otvorili tvoju e-poštu s pripremljenom narudžbom — samo je pošalji. Ako se nije otvorila, kontaktiraj nas na WhatsApp.",
     openMail: "Otvori e-poštu", whatsapp: "Pošalji na WhatsApp", close: "Zatvori",
     errTitle: "Nešto je pošlo po zlu", errBody: "Pokušaj ponovno ili nas kontaktiraj na WhatsApp.",
   },
@@ -49,8 +50,9 @@ const M = {
     summary: "Order summary", total: "Total",
     submit: "Send order", sending: "Sending…", cancel: "Cancel",
     required: "This field is required.", badEmail: "Check your email address.",
-    sentTitle: "Thank you!", sentBody: "Your order was received. Ariana will get back to you shortly by email or phone.",
-    fallbackTitle: "Almost there!", fallbackBody: "We opened your email app with the order ready — just hit send. If it didn't open, copy the details or reach us on WhatsApp.",
+    confirmNote: "After you order, Ariana will reach out via WhatsApp or email to confirm all the details and make sure everything is right before making your bag.",
+    sentTitle: "Thank you!", sentBody: "Your order was received and sent to Ariana. She'll reach out shortly via WhatsApp or email to confirm all the details and make sure everything is right.",
+    fallbackTitle: "Almost there!", fallbackBody: "Sending didn't go through just now, so we opened your email app with the order ready — just hit send. If it didn't open, reach us on WhatsApp.",
     openMail: "Open email", whatsapp: "Send on WhatsApp", close: "Close",
     errTitle: "Something went wrong", errBody: "Please try again or reach us on WhatsApp.",
   },
@@ -175,7 +177,10 @@ export function OrderModal({ open, onClose, lang, accent, total, waHref, order }
         body: JSON.stringify(payload),
       });
       const json = await res.json().catch(() => null);
-      if (res.ok && json && (json.success === "true" || json.success === true)) {
+      // FormSubmit accepts with HTTP 200 — treat any 2xx as delivered so the
+      // order is emailed to the studio automatically, no customer email app.
+      const explicitFail = json && (json.success === "false" || json.success === false);
+      if (res.ok && !explicitFail) {
         setStatus("sent");
       } else {
         // Relay unreachable/refused — fall back to the customer's email app.
@@ -243,6 +248,8 @@ export function OrderModal({ open, onClose, lang, accent, total, waHref, order }
                 ))}
               </div>
             </div>
+
+            <p className="order-modal__confirm-note">{t.confirmNote}</p>
 
             <div className="order-modal__actions">
               <Button type="submit" accent={accent} size="lg" disabled={status === "sending"}>
