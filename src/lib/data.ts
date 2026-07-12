@@ -71,6 +71,8 @@ export interface PatternDef {
   pages: number;
   price: number;
   accentVar: string;
+  /** Cover photo path, e.g. "/images/birkin-30-pattern.jpg". null = placeholder. */
+  photo: string | null;
 }
 
 // Patterns are the PDF guides for the signature "Ikone" bags — named after the bag.
@@ -78,22 +80,22 @@ export const patternDefs: PatternDef[] = [
   {
     slug: "birkin-30", hr: "Crochet Birkin 30 Inspired Bag", en: "Crochet Birkin 30 Inspired Bag",
     styleHr: "Strukturirana torbica s preklopom", styleEn: "Structured flap bag", levelHr: "Napredno", levelEn: "Advanced",
-    pages: 28, price: 14, accentVar: "var(--berry)",
+    pages: 28, price: 14, accentVar: "var(--berry)", photo: null,
   },
   {
     slug: "birkin-25", hr: "Crochet Birkin 25 Inspired Bag", en: "Crochet Birkin 25 Inspired Bag",
     styleHr: "Manja torbica s preklopom", styleEn: "Smaller flap bag", levelHr: "Napredno", levelEn: "Advanced",
-    pages: 26, price: 13, accentVar: "var(--clay)",
+    pages: 26, price: 13, accentVar: "var(--clay)", photo: null,
   },
   {
     slug: "mini-kelly", hr: "Crochet Mini Kelly Inspired Bag", en: "Crochet Mini Kelly Inspired Bag",
     styleHr: "Mini torbica s ručkom i kopčom", styleEn: "Mini top-handle bag with clasp", levelHr: "Srednje", levelEn: "Intermediate",
-    pages: 22, price: 12, accentVar: "var(--teal)",
+    pages: 22, price: 12, accentVar: "var(--teal)", photo: null,
   },
   {
     slug: "skirt-bag", hr: "Crochet Skirt Bag", en: "Crochet Skirt Bag",
     styleHr: "Plisirana torbica (Lacoste Lenglen)", styleEn: "Pleated bag (Lacoste Lenglen)", levelHr: "Srednje", levelEn: "Intermediate",
-    pages: 18, price: 10, accentVar: "var(--sage)",
+    pages: 18, price: 10, accentVar: "var(--sage)", photo: null,
   },
 ];
 
@@ -123,3 +125,17 @@ export const galleryImages: { src: string | null; alt: string; height: number }[
   { src: null, alt: "Krupni kadar heklane petlje", height: 220 },
   { src: null, alt: "Torbica s privjescima", height: 280 },
 ];
+
+// ─────────────────────────────────────────────────────────────────────────
+//  SITE PHOTOS
+//  To add a photo: drop the image file into the `public/images` folder, then
+//  write its path here as "/images/your-file-name.jpg". Leave a value as null
+//  to keep an empty placeholder for now. (Bag photos live on each bag above in
+//  `bagDefs` → `photo`; gallery photos in `galleryImages` → `src`.)
+// ─────────────────────────────────────────────────────────────────────────
+export const siteImages = {
+  heroMain: "/images/clutch-bordo.jpg" as string | null, // big photo on the home page
+  heroTopRight: null as string | null,
+  heroBottomRight: null as string | null,
+  aboutAriana: null as string | null, // photo on the "O meni / About me" section
+};

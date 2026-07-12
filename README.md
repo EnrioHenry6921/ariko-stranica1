@@ -12,6 +12,26 @@ npm run build    # production build
 npm start        # serve the production build
 ```
 
+## Adding photos
+
+Photos are fixed content set in the code — visitors **cannot** upload or change
+them on the live site. To add or change a photo:
+
+1. Put the image file in the **`public/images/`** folder (e.g. `public/images/clutch.jpg`).
+2. Write its path — always starting with `/images/` — in the right place in the
+   data files under `src/lib/`:
+
+   | Photo | Where to set it |
+   | --- | --- |
+   | Collection bag photos | `src/lib/data.ts` → `bagDefs` → each bag's `photo` |
+   | Gallery photos | `src/lib/data.ts` → `galleryImages` → each `src` |
+   | Home hero + About photo | `src/lib/data.ts` → `siteImages` |
+   | Pattern cover photos | `src/lib/data.ts` → `patternDefs` → each `photo` |
+
+   Example: `photo: "/images/clutch.jpg"`. Leave a value as `null` to keep an
+   empty placeholder for now.
+3. Commit and redeploy. The photo then shows for everyone, permanently.
+
 ## Orders & email
 
 The configurator's **Naruči / Order** button opens a form that collects the

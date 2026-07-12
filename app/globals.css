@@ -279,13 +279,8 @@ img { max-width: 100%; }
   font-weight: 500;
   letter-spacing: 0.01em;
   line-height: 1.4;
-  cursor: pointer;
-  transition: border-color var(--dur-fast) var(--ease-soft), background var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
 }
-.placeholder-tile:hover { border-color: var(--clay); color: var(--ink); }
-.placeholder-tile.is-over { border-color: var(--berry); background: var(--pale-clay); color: var(--berry); }
-.photo-slot__hint { display: block; margin-top: 6px; font-size: 10px; font-weight: 500; opacity: 0.75; }
-.photo-slot--filled { position: absolute; inset: 0; overflow: hidden; cursor: pointer; }
+.photo-slot--filled { position: absolute; inset: 0; overflow: hidden; }
 .photo-slot--filled img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .photo-slot__replace {
   position: absolute;

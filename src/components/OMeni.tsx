@@ -1,6 +1,7 @@
 "use client";
 
 import { useLang } from "@/lib/LangProvider";
+import { siteImages } from "@/lib/data";
 import { Eyebrow } from "./ui/Eyebrow";
 import { PlaceholderTile } from "./ui/PlaceholderTile";
 import { SectionDivider } from "./ui/SectionDivider";
@@ -13,7 +14,7 @@ export function OMeni() {
       <SectionDivider accent="var(--sage)" />
       <div className="container" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 48, alignItems: "center" }}>
         <div style={{ position: "relative", aspectRatio: "4 / 5", maxWidth: 420 }}>
-          <PlaceholderTile id="ariana" label={lang === "en" ? "Photo: Ariana" : "Fotografija: Ariana"} radius="var(--radius-xl)" />
+          <PlaceholderTile label={lang === "en" ? "Photo: Ariana" : "Fotografija: Ariana"} radius="var(--radius-xl)" defaultSrc={siteImages.aboutAriana ?? undefined} />
         </div>
         <div data-reveal="card">
           <Eyebrow>{t.omeniEyebrow}</Eyebrow>

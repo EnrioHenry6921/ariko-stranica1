@@ -231,13 +231,6 @@ export function Konfigurator() {
   const insertTop = "15%";
   const insertH = Math.max(13, Math.round(bagH * 0.085));
 
-  // Skirt bag: fuller vertical pleats + a scalloped ("petal") hem.
-  const isSkirt = !!shape.pleats;
-  const foldW = Math.max(22, Math.round(bagW / 6));
-  const pleatBg = `repeating-linear-gradient(90deg, rgba(0,0,0,0.24) 0, rgba(0,0,0,0.03) ${(foldW * 0.24).toFixed(1)}px, rgba(255,255,255,0.18) ${(foldW * 0.5).toFixed(1)}px, rgba(0,0,0,0.03) ${(foldW * 0.76).toFixed(1)}px, rgba(0,0,0,0.24) ${foldW}px)`;
-  const scallopR = Math.max(11, Math.round(foldW / 2));
-  const scallopMask = `radial-gradient(circle ${scallopR}px at 50% 100%, #000 98%, transparent 100%) 0 100% / ${scallopR * 2}px ${scallopR * 2}px repeat-x, linear-gradient(#000 0 0) 0 0 / 100% calc(100% - ${scallopR}px) no-repeat`;
-
   const modelChips = (group: "classic" | "premium") =>
     Object.entries(configBags)
       .filter(([, b]) => b.group === group)
@@ -295,14 +288,13 @@ export function Konfigurator() {
                     transition: "background-color var(--dur-base) var(--ease-soft), width var(--dur-base) var(--ease-soft), height var(--dur-base) var(--ease-soft)",
                     boxShadow: "inset 0 8px 18px rgba(255,255,255,0.12), inset 0 -22px 44px rgba(0,0,0,0.12)",
                     position: "relative", overflow: "hidden", zIndex: 1,
-                    ...(isSkirt ? { WebkitMask: scallopMask, mask: scallopMask } : {}),
                   }}
                 >
                   {shape.flap && (
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "38%", backgroundColor: primaryHex, backgroundImage: dotLayer, backgroundSize: "11px 11px", borderRadius: "0 0 18px 18px", boxShadow: "0 4px 8px rgba(0,0,0,0.16)", transition: "background-color var(--dur-base) var(--ease-soft)" }} />
                   )}
                   {shape.pleats && (
-                    <div style={{ position: "absolute", inset: 0, backgroundImage: pleatBg }} />
+                    <div style={{ position: "absolute", inset: 0, backgroundImage: "repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0 2px, rgba(255,255,255,0.05) 2px 4px, transparent 4px 20px)" }} />
                   )}
                   {/* Top opening — shown as a plain slot, or upgraded to the hand insert */}
                   {shape.slot && !showInsert && (

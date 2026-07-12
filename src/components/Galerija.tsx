@@ -8,7 +8,7 @@ import { SectionDivider } from "./ui/SectionDivider";
 
 export function Galerija() {
   const { lang, t } = useLang();
-  const addPhotoLabel = lang === "en" ? "Add a photo" : "Dodaj fotografiju";
+  const addPhotoLabel = lang === "en" ? "Photo" : "Fotografija";
 
   return (
     <section id="galerija" style={{ background: "var(--pale-clay)", padding: "var(--space-section) 24px" }}>
@@ -21,7 +21,7 @@ export function Galerija() {
         <div className="gallery-columns">
           {galleryImages.map((img, i) => (
             <div key={i} data-reveal="card" className="gallery-tile" style={{ position: "relative", height: img.height }}>
-              <PlaceholderTile id={`galerija-${i}`} label={addPhotoLabel} radius="var(--radius-xl)" defaultSrc={img.src ?? undefined} />
+              <PlaceholderTile label={addPhotoLabel} radius="var(--radius-xl)" defaultSrc={img.src ?? undefined} />
             </div>
           ))}
         </div>

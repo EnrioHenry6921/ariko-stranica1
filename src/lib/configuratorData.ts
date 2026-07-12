@@ -46,7 +46,7 @@ export const shapes: Record<BagShape, ShapeDef> = {
   birkin30: { w: 250, h: 190, r: "12px 12px 20px 20px", handle: true, flap: true, lock: true },
   birkin25: { w: 220, h: 170, r: "12px 12px 20px 20px", handle: true, flap: true, lock: true },
   kelly: { w: 190, h: 160, r: "12px 12px 18px 18px", handle: true, flap: true, lock: true },
-  skirt: { w: 234, h: 176, r: "18px 18px 10px 10px", pleats: true, chain: true },
+  skirt: { w: 215, h: 190, r: "10px 10px 34px 34px", pleats: true, chain: true },
 };
 
 export const MAX_COLORS = 3;

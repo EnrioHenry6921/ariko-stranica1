@@ -32,7 +32,7 @@ export function Patterni() {
               <div key={p.slug} data-reveal="card" className="pattern-card">
                 <div className="pattern-card__bar" style={{ background: p.accentVar }} />
                 <div className="pattern-card__media">
-                  <PlaceholderTile id={`pattern-cover-${p.slug}`} label={t.patternSlotPh} />
+                  <PlaceholderTile label={t.patternSlotPh} defaultSrc={p.photo ?? undefined} />
                 </div>
                 <div className="pattern-card__body">
                   <div className="pattern-card__name">{name}</div>
