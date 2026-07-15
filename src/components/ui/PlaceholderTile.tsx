@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * A photo slot. Give it `defaultSrc` — a path to a file in the `public/images`
@@ -21,12 +21,21 @@ export function PlaceholderTile({
   defaultSrc?: string;
 }) {
   const [failed, setFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // An image that 404s before hydration has already fired its error event, so
+  // onError won't run again — check for that case once mounted.
+  useEffect(() => {
+    setFailed(false);
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth === 0) setFailed(true);
+  }, [defaultSrc]);
 
   if (defaultSrc && !failed) {
     return (
       <div className="photo-slot photo-slot--filled" style={{ borderRadius: radius }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={defaultSrc} alt={label} onError={() => setFailed(true)} />
+        <img ref={imgRef} src={defaultSrc} alt={label} onError={() => setFailed(true)} />
       </div>
     );
   }
