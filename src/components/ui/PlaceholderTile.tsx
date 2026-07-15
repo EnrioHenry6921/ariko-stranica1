@@ -1,8 +1,13 @@
+"use client";
+
+import { useState } from "react";
+
 /**
  * A photo slot. Give it `defaultSrc` — a path to a file in the `public/images`
- * folder, e.g. "/images/clutch.jpg" — and it shows that photo. With no src it
- * shows a plain placeholder. Images are fixed content: visitors cannot add,
- * change or remove them; the studio sets them via the image paths in the data.
+ * folder, e.g. "/images/clutch.jpg" — and it shows that photo. With no src (or
+ * if the file isn't there yet) it shows a plain placeholder. Images are fixed
+ * content: visitors cannot add, change or remove them; the studio sets them via
+ * the image paths in the data.
  */
 export function PlaceholderTile({
   label,
@@ -15,11 +20,13 @@ export function PlaceholderTile({
   radius?: number | string;
   defaultSrc?: string;
 }) {
-  if (defaultSrc) {
+  const [failed, setFailed] = useState(false);
+
+  if (defaultSrc && !failed) {
     return (
       <div className="photo-slot photo-slot--filled" style={{ borderRadius: radius }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={defaultSrc} alt={label} />
+        <img src={defaultSrc} alt={label} onError={() => setFailed(true)} />
       </div>
     );
   }

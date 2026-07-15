@@ -16,7 +16,7 @@ export const configBags: Record<string, ConfigBag> = {
   "clutch": { hr: "Clutch", en: "Clutch", base: 58, accent: "var(--accent-clutch)", group: "classic", shape: "clutch" },
   "torba-s-resama": { hr: "Torba s resama", en: "Fringe bag", base: 78, accent: "var(--accent-fringe)", group: "classic", shape: "fringe" },
   "crossbody-na-lancu": { hr: "Crossbody na lancu", en: "Chain crossbody", base: 74, accent: "var(--accent-crossbody)", group: "classic", shape: "crossbody" },
-  "mini-pouch": { hr: "Mini pouch", en: "Mini pouch", base: 40, accent: "var(--accent-mini)", group: "classic", shape: "pouch" },
+  "mini-pouch": { hr: "Mini pouch", en: "Mini pouch", base: 45, accent: "var(--accent-mini)", group: "classic", shape: "pouch" },
   "birkin-30": { hr: "Crochet Birkin 30 Inspired Bag", en: "Crochet Birkin 30 Inspired Bag", chip: "Birkin 30", base: 120, accent: "var(--berry)", group: "premium", shape: "birkin30" },
   "birkin-25": { hr: "Crochet Birkin 25 Inspired Bag", en: "Crochet Birkin 25 Inspired Bag", chip: "Birkin 25", base: 110, accent: "var(--clay)", group: "premium", shape: "birkin25" },
   "mini-kelly": { hr: "Crochet Mini Kelly Inspired Bag", en: "Crochet Mini Kelly Inspired Bag", chip: "Mini Kelly", base: 98, accent: "var(--teal)", group: "premium", shape: "kelly" },

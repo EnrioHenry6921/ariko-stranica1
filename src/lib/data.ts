@@ -23,7 +23,7 @@ export const bagDefs: BagDef[] = [
   },
   {
     slug: "torba-s-resama", hr: "Torba s resama", en: "Fringe bag", base: 78, accentVar: "var(--accent-fringe)", group: "classic",
-    photo: null, alt: "Heklana torba s resama",
+    photo: "/images/fringe-bag.jpg", alt: "Heklana torba s resama u boji senfa sa zlatnim privjescima",
     blurbHr: "Mekana torba s resama, za svaki dan.", blurbEn: "A soft fringed bag for every day.",
   },
   {
@@ -32,7 +32,7 @@ export const bagDefs: BagDef[] = [
     blurbHr: "Manja torbica na lančiću, preko ramena.", blurbEn: "A smaller bag on a chain, worn across the shoulder.",
   },
   {
-    slug: "mini-pouch", hr: "Mini pouch", en: "Mini pouch", base: 40, accentVar: "var(--accent-mini)", group: "classic",
+    slug: "mini-pouch", hr: "Mini pouch", en: "Mini pouch", base: 45, accentVar: "var(--accent-mini)", group: "classic",
     photo: null, alt: "Mala heklana torbica",
     blurbHr: "Sitna torbica za najnužnije.", blurbEn: "A tiny pouch for the essentials.",
   },
@@ -112,18 +112,18 @@ export const reviews: Review[] = [
   { name: "Emma S.", role: "Beč, Austrija", rating: 5, quote: "The bag arrived beautifully packaged and even prettier in person. Worth every week of waiting." },
   { name: "Petra M.", role: "Rijeka", rating: 5, quote: "Kupila sam pattern i sve je tako jasno objašnjeno. Prva torba mi je uspjela iz prve!" },
   { name: "Sophie L.", role: "München, Njemačka", rating: 5, quote: "Wonderful craftsmanship — you can feel the care in every stitch. Ariana was so kind throughout." },
-  { name: "Lucija B.", role: "Osijek", rating: 5, quote: "Prekrasni prirodni materijali i topla boja. Nosim je svaki dan." },
+  { name: "Lucija B.", role: "Osijek", rating: 5, quote: "Prekrasna izrada i topla boja. Nosim je svaki dan." },
   { name: "Giulia R.", role: "Trst, Italija", rating: 5, quote: "Il mio pattern era chiarissimo, con foto per ogni passaggio. La borsa è venuta perfetta!" },
   { name: "Hana N.", role: "Ljubljana, Slovenija", rating: 5, quote: "Naročila sem crossbody v barvi žada — popolna. Priporočam vsem!" },
 ];
 
 export const galleryImages: { src: string | null; alt: string; height: number }[] = [
   { src: "/images/clutch-bordo.jpg", alt: "Bordo heklani clutch sa zlatnom niti", height: 280 },
-  { src: null, alt: "Ruke heklaju bordo pređom", height: 340 },
+  { src: "/images/fringe-bag.jpg", alt: "Heklana torba s resama u boji senfa", height: 340 },
   { src: null, alt: "Klupko pređe i heklaći iglica na stolu", height: 240 },
-  { src: null, alt: "Gotova torba na drvenoj stolici", height: 300 },
+  { src: "/images/clutch-bordo-blue.jpg", alt: "Bordo i svijetloplavi prugasti clutch", height: 300 },
   { src: null, alt: "Krupni kadar heklane petlje", height: 220 },
-  { src: null, alt: "Torbica s privjescima", height: 280 },
+  { src: "/images/clutch-red.jpg", alt: "Bordo clutch s otvorom za ruku", height: 280 },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -135,7 +135,7 @@ export const galleryImages: { src: string | null; alt: string; height: number }[
 // ─────────────────────────────────────────────────────────────────────────
 export const siteImages = {
   heroMain: "/images/clutch-bordo.jpg" as string | null, // big photo on the home page
-  heroTopRight: null as string | null,
-  heroBottomRight: null as string | null,
+  heroTopRight: "/images/clutch-bordo-blue.jpg" as string | null,
+  heroBottomRight: "/images/fringe-bag.jpg" as string | null,
   aboutAriana: null as string | null, // photo on the "O meni / About me" section
 };
