@@ -80,6 +80,7 @@ const exampleDefaults: Record<string, (string | undefined)[]> = {
   "mini-pouch": ["/images/pouch-blue-white.jpg", "/images/clutch-navy.jpg", "/images/clutch-speckled.jpg"],
   "birkin-30": ["/images/birkin-30.jpg"],
   "birkin-25": ["/images/birkin-25.jpg"],
+  "mini-kelly": ["/images/mini-kelly.jpg"],
   "skirt-bag": ["/images/skirt-bag.jpg"],
 };
 

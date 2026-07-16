@@ -48,7 +48,7 @@ export const bagDefs: BagDef[] = [
   },
   {
     slug: "mini-kelly", hr: "Crochet Mini Kelly Inspired Bag", en: "Crochet Mini Kelly Inspired Bag", base: 98, accentVar: "var(--teal)", group: "premium",
-    photo: null, alt: "Mala heklana torbica s ručkom, preklopom i kopčom",
+    photo: "/images/mini-kelly.jpg", alt: "Krem heklana Mini Kelly torbica s ručkom, preklopom i zlatnom kopčom",
     blurbHr: "Mala torbica s ručkom, preklopom i kopčom.", blurbEn: "A small top-handle bag with a flap and clasp.",
   },
   {
@@ -142,5 +142,5 @@ export const siteImages = {
   heroMain: "/images/clutch-bordo-studio.jpg" as string | null, // big photo on the home page
   heroTopRight: "/images/skirt-bag.jpg" as string | null,
   heroBottomRight: "/images/birkin-25.jpg" as string | null,
-  aboutAriana: null as string | null, // photo on the "O meni / About me" section
+  aboutAriana: "/images/ariana.jpg" as string | null, // photo on the "O meni / About me" section
 };
