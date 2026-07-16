@@ -74,7 +74,7 @@ const NOTE_MAX = 200;
 
 // Seeded example photos per bag (replaceable). Only the clutch has a real photo.
 const exampleDefaults: Record<string, (string | undefined)[]> = {
-  "clutch": ["/images/clutch-bordo-studio.jpg", "/images/clutch-white.jpg", "/images/clutch-red-vogue.jpg"],
+  "clutch": ["/images/clutch-bordo-studio.jpg", "/images/clutch-bordo-blue.jpg", "/images/clutch-pink-orange.jpg"],
   "torba-s-resama": ["/images/fringe-blue.jpg", "/images/fringe-mustard.jpg"],
   "crossbody-na-lancu": ["/images/crossbody-orange.jpg"],
   "mini-pouch": ["/images/pouch-blue-white.jpg", "/images/clutch-navy.jpg", "/images/clutch-speckled.jpg"],
@@ -222,9 +222,9 @@ export function Konfigurator() {
   // Birkin bags carry two rolled top handles; the Kelly has a single one.
   const isBirkin = bagSlug === "birkin-30" || bagSlug === "birkin-25";
   const handleThick = Math.max(7, Math.round(9 * f));
-  const handleW = Math.round(bagW * (isBirkin ? 0.26 : 0.34));
-  const handleH = Math.round(bagW * (isBirkin ? 0.26 : 0.22));
-  const handleXs = isBirkin ? [31, 69] : [50];
+  const handleW = Math.round(bagW * (isBirkin ? 0.28 : 0.34));
+  const handleH = Math.round(bagW * (isBirkin ? 0.19 : 0.22));
+  const handleXs = isBirkin ? [32, 68] : [50];
   const hRx = (handleW - handleThick) / 2;
   const hRy = handleH - handleThick / 2;
   const handlePath = `M ${handleThick / 2} ${handleH} A ${hRx} ${hRy} 0 0 1 ${handleW - handleThick / 2} ${handleH}`;
@@ -277,13 +277,17 @@ export function Konfigurator() {
                     )}
                   </svg>
                 )}
-                {shape.handle && handleXs.map((hx, i) => (
-                  <svg key={i} width={handleW} height={handleH} viewBox={`0 0 ${handleW} ${handleH}`} style={{ position: "absolute", bottom: -2, left: `${hx}%`, transform: "translateX(-50%)", overflow: "visible" }} aria-hidden="true">
-                    <path d={handlePath} fill="none" stroke={primaryHex} strokeWidth={handleThick} strokeLinecap="round" style={{ transition: "stroke var(--dur-base) var(--ease-soft)" }} />
-                    <path d={handlePath} fill="none" stroke="rgba(0,0,0,0.16)" strokeWidth={handleThick} strokeLinecap="round" strokeDasharray="0.5 4.5" />
-                    <path d={handlePath} fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth={handleThick - 4} strokeLinecap="round" strokeDasharray="1 5" />
-                  </svg>
-                ))}
+                {shape.handle && (
+                  <div style={{ position: "absolute", bottom: -2, left: "50%", transform: "translateX(-50%)", width: bagW, height: handleH }} aria-hidden="true">
+                    {handleXs.map((hx, i) => (
+                      <svg key={i} width={handleW} height={handleH} viewBox={`0 0 ${handleW} ${handleH}`} style={{ position: "absolute", bottom: 0, left: `${hx}%`, transform: "translateX(-50%)", overflow: "visible" }}>
+                        <path d={handlePath} fill="none" stroke={primaryHex} strokeWidth={handleThick} strokeLinecap="round" style={{ transition: "stroke var(--dur-base) var(--ease-soft)" }} />
+                        <path d={handlePath} fill="none" stroke="rgba(0,0,0,0.16)" strokeWidth={handleThick} strokeLinecap="round" strokeDasharray="0.5 4.5" />
+                        <path d={handlePath} fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth={handleThick - 4} strokeLinecap="round" strokeDasharray="1 5" />
+                      </svg>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Bag body */}

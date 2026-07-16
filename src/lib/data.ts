@@ -140,7 +140,7 @@ export const galleryImages: { src: string | null; alt: string; height: number }[
 //  `bagDefs` → `photo`; gallery photos in `galleryImages` → `src`.)
 // ─────────────────────────────────────────────────────────────────────────
 export const siteImages = {
-  heroMain: "/images/clutch-bordo.jpg" as string | null, // big photo on the home page
+  heroMain: "/images/clutch-bordo-studio.jpg" as string | null, // big photo on the home page
   heroTopRight: "/images/skirt-bag.jpg" as string | null,
   heroBottomRight: "/images/birkin-25.jpg" as string | null,
   aboutAriana: null as string | null, // photo on the "O meni / About me" section
