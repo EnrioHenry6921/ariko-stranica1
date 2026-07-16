@@ -11,9 +11,9 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const p = patternDetails[params.slug];
-  if (!p) return { title: "Ariko Studio — Pattern" };
+  if (!p) return { title: "Ariko Studio · Pattern" };
   return {
-    title: `Ariko Studio — ${p.hr}`,
+    title: `Ariko Studio · ${p.hr}`,
     description: p.descHr,
   };
 }

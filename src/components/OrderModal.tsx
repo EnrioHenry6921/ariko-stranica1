@@ -37,7 +37,7 @@ const M = {
     required: "Ovo polje je obavezno.", badEmail: "Provjeri email adresu.",
     confirmNote: "Nakon narudžbe javljam ti se putem WhatsAppa ili emaila kako bih potvrdila sve detalje i provjerila da je sve točno prije nego što krenem s izradom.",
     sentTitle: "Hvala ti!", sentBody: "Zaprimila sam tvoju narudžbu. Uskoro ti se javljam putem WhatsAppa ili emaila kako bih potvrdila sve detalje i provjerila da je sve točno.",
-    fallbackTitle: "Skoro gotovo!", fallbackBody: "Slanje trenutno nije uspjelo, pa smo otvorili tvoju e-poštu s pripremljenom narudžbom — samo je pošalji. Ako se nije otvorila, kontaktiraj nas na WhatsApp.",
+    fallbackTitle: "Skoro gotovo!", fallbackBody: "Slanje trenutno nije uspjelo, pa smo otvorili tvoju e-poštu s pripremljenom narudžbom. Samo je pošalji. Ako se nije otvorila, kontaktiraj nas na WhatsApp.",
     openMail: "Otvori e-poštu", whatsapp: "Pošalji na WhatsApp", close: "Zatvori",
     errTitle: "Nešto je pošlo po zlu", errBody: "Pokušaj ponovno ili nas kontaktiraj na WhatsApp.",
   },
@@ -52,7 +52,7 @@ const M = {
     required: "This field is required.", badEmail: "Check your email address.",
     confirmNote: "After you order, I'll reach out via WhatsApp or email to confirm all the details and make sure everything is right before I start making your bag.",
     sentTitle: "Thank you!", sentBody: "I've received your order. I'll reach out shortly via WhatsApp or email to confirm all the details and make sure everything is right.",
-    fallbackTitle: "Almost there!", fallbackBody: "Sending didn't go through just now, so we opened your email app with the order ready — just hit send. If it didn't open, reach us on WhatsApp.",
+    fallbackTitle: "Almost there!", fallbackBody: "Sending didn't go through just now, so we opened your email app with the order ready. Just hit send. If it didn't open, reach us on WhatsApp.",
     openMail: "Open email", whatsapp: "Send on WhatsApp", close: "Close",
     errTitle: "Something went wrong", errBody: "Please try again or reach us on WhatsApp.",
   },
@@ -105,7 +105,7 @@ export function OrderModal({ open, onClose, lang, accent, total, waHref, order }
       [lang === "en" ? "Charms" : "Privjesci", order.charms],
       [lang === "en" ? "Note" : "Napomena", order.note],
     ] as [string, string][]
-  ).filter(([, v]) => v && v !== "—");
+  ).filter(([, v]) => v && v !== "-");
 
   const buildMailto = () => {
     const lines = [
@@ -119,7 +119,7 @@ export function OrderModal({ open, onClose, lang, accent, total, waHref, order }
       `${t.total}: €${total}`,
     ];
     if (message.trim()) lines.push("", `${t.message}: ${message.trim()}`);
-    const subject = `${lang === "en" ? "Order" : "Narudžba"} — ${firstName} ${lastName} · ${order.bag}`;
+    const subject = `${lang === "en" ? "Order" : "Narudžba"} · ${firstName} ${lastName} · ${order.bag}`;
     return `mailto:${ORDER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
   };
 
@@ -145,7 +145,7 @@ export function OrderModal({ open, onClose, lang, accent, total, waHref, order }
 
     // Flat key/value payload for FormSubmit's email relay (no backend needed).
     const payload: Record<string, string> = {
-      _subject: `${lang === "en" ? "New order" : "Nova narudžba"} — ${firstName} ${lastName} · ${order.bag}`,
+      _subject: `${lang === "en" ? "New order" : "Nova narudžba"} · ${firstName} ${lastName} · ${order.bag}`,
       _template: "table",
       _captcha: "false",
       _honey: company, // FormSubmit honeypot
@@ -167,7 +167,7 @@ export function OrderModal({ open, onClose, lang, accent, total, waHref, order }
       [lang === "en" ? "Charms" : "Privjesci"]: order.charms,
       [lang === "en" ? "Note" : "Napomena"]: order.note,
       [lang === "en" ? "Total (€)" : "Ukupno (€)"]: String(total),
-      [lang === "en" ? "Message" : "Poruka"]: message || "—",
+      [lang === "en" ? "Message" : "Poruka"]: message || "-",
     };
 
     try {

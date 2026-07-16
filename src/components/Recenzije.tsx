@@ -37,7 +37,7 @@ export function Recenzije() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onKeyDown={handleKeyDown}
-      aria-label="Recenzije kupaca — strelicama mijenjaj recenziju"
+      aria-label="Recenzije kupaca, strelicama mijenjaj recenziju"
     >
       <SectionDivider accent="var(--pale-ochre)" onDark />
       <div className="container">

@@ -5,8 +5,8 @@ import { Konfigurator } from "@/components/Konfigurator";
 import { FooterSlim } from "@/components/FooterSlim";
 
 export const metadata: Metadata = {
-  title: "Ariko Studio — Složi svoju torbu",
-  description: "Složi svoju heklanu torbu: model, veličina, boja pređe, naramenica i privjesci — s cijenom uživo.",
+  title: "Ariko Studio · Složi svoju torbu",
+  description: "Složi svoju heklanu torbu: model, veličina, boja pređe, naramenica i privjesci, s cijenom uživo.",
 };
 
 export default function KonfiguratorPage() {

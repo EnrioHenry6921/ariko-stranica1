@@ -107,14 +107,14 @@ export interface Review {
 }
 
 export const reviews: Review[] = [
-  { name: "Marija K.", role: "Zagreb", rating: 5, quote: "Torba je još ljepša uživo — svaka petlja savršena. Vrijedilo je čekati." },
+  { name: "Marija K.", role: "Zagreb", rating: 5, quote: "Torba je još ljepša uživo, svaka petlja savršena. Vrijedilo je čekati." },
   { name: "Ivana P.", role: "Split", rating: 5, quote: "Ariana je izašla ususret svim mojim željama. Dobila sam točno ono što sam zamislila." },
   { name: "Emma S.", role: "Beč, Austrija", rating: 5, quote: "The bag arrived beautifully packaged and even prettier in person. Worth every week of waiting." },
   { name: "Petra M.", role: "Rijeka", rating: 5, quote: "Kupila sam pattern i sve je tako jasno objašnjeno. Prva torba mi je uspjela iz prve!" },
-  { name: "Sophie L.", role: "München, Njemačka", rating: 5, quote: "Wonderful craftsmanship — you can feel the care in every stitch. Ariana was so kind throughout." },
+  { name: "Sophie L.", role: "München, Njemačka", rating: 5, quote: "Wonderful craftsmanship, you can feel the care in every stitch. Ariana was so kind throughout." },
   { name: "Lucija B.", role: "Osijek", rating: 5, quote: "Prekrasna izrada i topla boja. Nosim je svaki dan." },
   { name: "Giulia R.", role: "Trst, Italija", rating: 5, quote: "Il mio pattern era chiarissimo, con foto per ogni passaggio. La borsa è venuta perfetta!" },
-  { name: "Hana N.", role: "Ljubljana, Slovenija", rating: 5, quote: "Naročila sem crossbody v barvi žada — popolna. Priporočam vsem!" },
+  { name: "Hana N.", role: "Ljubljana, Slovenija", rating: 5, quote: "Naročila sem crossbody v barvi žada, popolna. Priporočam vsem!" },
 ];
 
 export const galleryImages: { src: string | null; alt: string; height: number }[] = [
@@ -124,7 +124,7 @@ export const galleryImages: { src: string | null; alt: string; height: number }[
   { src: "/images/clutch-navy.jpg", alt: "Teget heklani clutch", height: 300 },
   { src: "/images/clutch-red-vogue.jpg", alt: "Bordo heklani clutch uz Vogue magazin", height: 340 },
   { src: "/images/birkin-pink.jpg", alt: "Roza strukturirana heklana torba sa zlatnom kopčom", height: 380 },
-  { src: "/images/clutch-bordo-gold.jpg", alt: "Bordo heklani clutch sa zlatnom niti", height: 300 },
+  { src: "/images/grey-pink-packaging.jpg", alt: "Heklane torbe u ARIKO pakiranju", height: 300 },
   { src: "/images/pink-blanket.jpg", alt: "Roza heklana torbica u ARIKO pakiranju", height: 300 },
   { src: "/images/fringe-mustard.jpg", alt: "Heklana torba s resama u boji senfa sa zlatnim privjescima", height: 380 },
   { src: "/images/clutch-speckled.jpg", alt: "Šareni heklani clutch s resicama", height: 300 },

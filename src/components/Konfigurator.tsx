@@ -34,7 +34,7 @@ const T = {
   hr: {
     back: "← Natrag na kolekciju", eyebrow: "Prilagodi",
     madeToOrder: "Izrađeno po narudžbi · šalje se za 2–4 tjedna",
-    iconNote: "Ikone se izrađuju u fiksnom kroju — prilagodi boju, metal i privjeske.",
+    iconNote: "Ikone se izrađuju u fiksnom kroju. Prilagodi boju, metal i privjeske.",
     model: "Model", classics: "Klasici", icons: "Ikone",
     size: "Veličina", insert: "Umetak za ruku (besplatno)", strap: "Naramenica", yarn: "Boja pređe", yarnHint: "do 3 boje",
     metal: "Metal (pločica i privjesci)", metalGold: "Zlatna", metalSilver: "Srebrna",
@@ -42,7 +42,7 @@ const T = {
     customCharmLabel: "Koji privjesak želiš?", customCharmPh: "npr. slovo A, srebrna zvjezdica…",
     wishes: "Posebne želje", wishesPh: "npr. inicijali na privjesku, tamnija podstava…",
     order: "Naruči", whatsapp: "Dogovori na WhatsApp",
-    protoLabel: "Prototip:", stripeNote: "ovdje se otvara Stripe Checkout (kartice, Apple Pay, Google Pay). Cijena se prije naplate ponovno izračunava na serveru iz odabranih opcija — iznos iz preglednika se ne koristi.",
+    protoLabel: "Prototip:", stripeNote: "ovdje se otvara Stripe Checkout (kartice, Apple Pay, Google Pay). Cijena se prije naplate ponovno izračunava na serveru iz odabranih opcija. Iznos iz preglednika se ne koristi.",
     orLine: "Ili: Instagram @arikostudio · hello@arikostudio.hr",
     examplesLabel: "Primjeri izrade", examplePh: "Primjer",
     total: "Ukupno", from: "od", strapWord: "Naramenica", insertWord: "Umetak", charmsWord: "Privjesci", metalWord: "Metal", colorWord: "Boje",
@@ -51,7 +51,7 @@ const T = {
   en: {
     back: "← Back to the collection", eyebrow: "Customize",
     madeToOrder: "Made to order · ships in 2–4 weeks",
-    iconNote: "Icons are made to a fixed cut — customize the color, metal and charms.",
+    iconNote: "Icons are made to a fixed cut. Customize the color, metal and charms.",
     model: "Model", classics: "Classics", icons: "Icons",
     size: "Size", insert: "Hand insert (free)", strap: "Strap", yarn: "Yarn color", yarnHint: "up to 3 colors",
     metal: "Metal (plate & charms)", metalGold: "Gold", metalSilver: "Silver",
@@ -59,7 +59,7 @@ const T = {
     customCharmLabel: "Which charm would you like?", customCharmPh: "e.g. letter A, a small silver star…",
     wishes: "Special requests", wishesPh: "e.g. initials on the charm, darker lining…",
     order: "Order", whatsapp: "Arrange on WhatsApp",
-    protoLabel: "Prototype:", stripeNote: "this opens Stripe Checkout (cards, Apple Pay, Google Pay). The price is recalculated server-side from the selected options before charging — the browser amount is never trusted.",
+    protoLabel: "Prototype:", stripeNote: "this opens Stripe Checkout (cards, Apple Pay, Google Pay). The price is recalculated server-side from the selected options before charging. The browser amount is never trusted.",
     orLine: "Or: Instagram @arikostudio · hello@arikostudio.hr",
     examplesLabel: "Made examples", examplePh: "Example",
     total: "Total", from: "from", strapWord: "Strap", insertWord: "Insert", charmsWord: "Charms", metalWord: "Metal", colorWord: "Colors",
@@ -71,7 +71,13 @@ const NOTE_MAX = 200;
 
 // Seeded example photos per bag (replaceable). Only the clutch has a real photo.
 const exampleDefaults: Record<string, (string | undefined)[]> = {
-  clutch: ["/images/clutch-bordo.jpg"],
+  "clutch": ["/images/clutch-bordo-studio.jpg", "/images/clutch-white.jpg", "/images/clutch-red-vogue.jpg"],
+  "torba-s-resama": ["/images/fringe-blue.jpg", "/images/fringe-mustard.jpg"],
+  "crossbody-na-lancu": ["/images/crossbody-orange.jpg"],
+  "mini-pouch": ["/images/pouch-blue-white.jpg", "/images/clutch-navy.jpg", "/images/clutch-speckled.jpg"],
+  "birkin-30": ["/images/birkin-30.jpg"],
+  "birkin-25": ["/images/birkin-25.jpg"],
+  "skirt-bag": ["/images/skirt-bag.jpg"],
 };
 
 export function Konfigurator() {
@@ -140,7 +146,7 @@ export function Konfigurator() {
     breakdown.push({ label: chipName, amt: `€${bag.base}` });
   } else {
     breakdown.push({ label: `${chipName} (${sizeDef[lang]})`, amt: `€${bag.base + sizeMod}` });
-    if (strapMod) breakdown.push({ label: `${t.strapWord} — ${strapDef[lang]}`, amt: `+€${strapMod}` });
+    if (strapMod) breakdown.push({ label: `${t.strapWord} · ${strapDef[lang]}`, amt: `+€${strapMod}` });
   }
   if (charmsTotal) breakdown.push({ label: `${t.charmsWord} × ${charms.length}`, amt: `+€${charmsTotal}` });
 
@@ -150,13 +156,13 @@ export function Konfigurator() {
 
   const orderDetails: OrderDetails = {
     bag: chipName,
-    size: isPremium ? "—" : sizeDef[lang],
+    size: isPremium ? "-" : sizeDef[lang],
     colors: colorsLabel,
     metal: metalLabel,
-    strap: isPremium ? "—" : strapDef[lang],
-    insert: isPremium ? "—" : insertDef[lang],
-    charms: charms.map(charmLabel).join(", ") || "—",
-    note: note || "—",
+    strap: isPremium ? "-" : strapDef[lang],
+    insert: isPremium ? "-" : insertDef[lang],
+    charms: charms.map(charmLabel).join(", ") || "-",
+    note: note || "-",
   };
 
   const waHref = useMemo(() => {
@@ -168,8 +174,8 @@ export function Konfigurator() {
     }
     lines.push(`• ${t.waYarn}: ${colorsLabel}`);
     lines.push(`• ${t.waMetal}: ${metalLabel}`);
-    lines.push(`• ${t.waCharms}: ${charms.map(charmLabel).join(", ") || "—"}`);
-    lines.push(`• ${t.waNote}: ${note || "—"}`);
+    lines.push(`• ${t.waCharms}: ${charms.map(charmLabel).join(", ") || "-"}`);
+    lines.push(`• ${t.waNote}: ${note || "-"}`);
     lines.push(`${t.waPrice}: €${total}`);
     return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -359,7 +365,7 @@ export function Konfigurator() {
 
             {/* Made examples for the selected bag — drop real photos here (replaceable) */}
             <div className="konf-examples">
-              <div className="konf-examples__label">{t.examplesLabel} — {chipName}</div>
+              <div className="konf-examples__label">{t.examplesLabel} · {chipName}</div>
               <div className="konf-examples__grid">
                 {[0, 1, 2].map((i) => (
                   <div className="konf-ex-tile" key={i}>
@@ -454,7 +460,7 @@ export function Konfigurator() {
 
             <div className="option-group">
               <div className="option-group__label">
-                {t.yarn} <span style={{ fontWeight: 400, color: "var(--ink-soft)" }}>({t.yarnHint})</span> — {colorsLabel}
+                {t.yarn} <span style={{ fontWeight: 400, color: "var(--ink-soft)" }}>({t.yarnHint})</span> · {colorsLabel}
               </div>
               <div className="option-row">
                 {yarns.map(([hex, hr, en]) => {
