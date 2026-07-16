@@ -219,12 +219,11 @@ export function Konfigurator() {
   const strapRy = strapSvgH - strapThick / 2;
   const strapPath = `M ${strapThick / 2} ${strapSvgH} A ${strapRx} ${strapRy} 0 0 1 ${strapSvgW - strapThick / 2} ${strapSvgH}`;
 
-  // Birkin bags carry two rolled top handles; the Kelly has a single one.
-  const isBirkin = bagSlug === "birkin-30" || bagSlug === "birkin-25";
+  // A single rolled top handle for the flap bags (Birkin, Kelly).
   const handleThick = Math.max(7, Math.round(9 * f));
-  const handleW = Math.round(bagW * (isBirkin ? 0.28 : 0.34));
-  const handleH = Math.round(bagW * (isBirkin ? 0.19 : 0.22));
-  const handleXs = isBirkin ? [32, 68] : [50];
+  const handleW = Math.round(bagW * 0.34);
+  const handleH = Math.round(bagW * 0.22);
+  const handleXs = [50];
   const hRx = (handleW - handleThick) / 2;
   const hRy = handleH - handleThick / 2;
   const handlePath = `M ${handleThick / 2} ${handleH} A ${hRx} ${hRy} 0 0 1 ${handleW - handleThick / 2} ${handleH}`;

@@ -53,7 +53,6 @@ export const bagDefs: BagDef[] = [
   },
   {
     slug: "skirt-bag", hr: "Crochet Skirt Bag", en: "Crochet Skirt Bag", base: 88, accentVar: "var(--sage)", group: "premium",
-    subtitleHr: "Inspirirano modelom Lacoste Lenglen", subtitleEn: "Inspired by the Lacoste Lenglen",
     photo: "/images/skirt-bag.jpg", alt: "Razigrana roza heklana torbica plisiranog oblika sa zlatnim lancem",
     blurbHr: "Razigrana torbica nabranog, plisiranog oblika.", blurbEn: "A playful bag with a pleated, skirt-like shape.",
   },
