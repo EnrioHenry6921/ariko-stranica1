@@ -23,11 +23,12 @@ const CHARM_SPOTS = [
   { x: 76, y: 52 }, { x: 50, y: 63 }, { x: 15, y: 45 },
   { x: 85, y: 44 }, { x: 33, y: 24 }, { x: 67, y: 22 },
 ];
-// Flap bags (Birkin/Kelly): the flap covers the top, so hang the charms lower.
+// Flap bags (Birkin/Kelly): the flap + lock cover the top-centre, so hang the
+// charms lower and out toward the sides.
 const CHARM_SPOTS_FLAP = [
-  { x: 20, y: 52 }, { x: 80, y: 50 }, { x: 32, y: 66 },
-  { x: 68, y: 64 }, { x: 50, y: 56 }, { x: 16, y: 60 },
-  { x: 84, y: 58 }, { x: 42, y: 48 }, { x: 60, y: 48 },
+  { x: 18, y: 56 }, { x: 82, y: 54 }, { x: 30, y: 70 },
+  { x: 70, y: 68 }, { x: 50, y: 66 }, { x: 15, y: 66 },
+  { x: 85, y: 64 }, { x: 36, y: 58 }, { x: 64, y: 58 },
 ];
 
 const T = {
@@ -44,6 +45,7 @@ const T = {
     order: "Naruči", whatsapp: "Dogovori na WhatsApp",
     protoLabel: "Prototip:", stripeNote: "ovdje se otvara Stripe Checkout (kartice, Apple Pay, Google Pay). Cijena se prije naplate ponovno izračunava na serveru iz odabranih opcija. Iznos iz preglednika se ne koristi.",
     orLine: "Ili: Instagram @arikostudio · hello@arikostudio.hr",
+    previewNote: "Ovo je samo konfigurator za odabir opcija (model, boje, metal, privjesci). Gotova torba izgleda kao na fotografijama primjera ispod, a ne kao ova skica.",
     examplesLabel: "Primjeri izrade", examplePh: "Primjer",
     total: "Ukupno", from: "od", strapWord: "Naramenica", insertWord: "Umetak", charmsWord: "Privjesci", metalWord: "Metal", colorWord: "Boje",
     waIntro: "Pozdrav Ariana! Zanima me narudžba:", waSize: "Veličina", waInsert: "Umetak za ruku", waStrap: "Naramenica", waYarn: "Boje pređe", waMetal: "Metal", waCharms: "Privjesci", waNote: "Napomena", waPrice: "Cijena na stranici",
@@ -61,6 +63,7 @@ const T = {
     order: "Order", whatsapp: "Arrange on WhatsApp",
     protoLabel: "Prototype:", stripeNote: "this opens Stripe Checkout (cards, Apple Pay, Google Pay). The price is recalculated server-side from the selected options before charging. The browser amount is never trusted.",
     orLine: "Or: Instagram @arikostudio · hello@arikostudio.hr",
+    previewNote: "This is just a configurator for choosing options (model, colors, metal, charms). The finished bag looks like the example photos below, not like this sketch.",
     examplesLabel: "Made examples", examplePh: "Example",
     total: "Total", from: "from", strapWord: "Strap", insertWord: "Insert", charmsWord: "Charms", metalWord: "Metal", colorWord: "Colors",
     waIntro: "Hi Ariana! I would like to order:", waSize: "Size", waInsert: "Hand insert", waStrap: "Strap", waYarn: "Yarn colors", waMetal: "Metal", waCharms: "Charms", waNote: "Note", waPrice: "Price on the site",
@@ -216,9 +219,12 @@ export function Konfigurator() {
   const strapRy = strapSvgH - strapThick / 2;
   const strapPath = `M ${strapThick / 2} ${strapSvgH} A ${strapRx} ${strapRy} 0 0 1 ${strapSvgW - strapThick / 2} ${strapSvgH}`;
 
+  // Birkin bags carry two rolled top handles; the Kelly has a single one.
+  const isBirkin = bagSlug === "birkin-30" || bagSlug === "birkin-25";
   const handleThick = Math.max(7, Math.round(9 * f));
-  const handleW = Math.round(bagW * 0.36);
-  const handleH = Math.round(bagW * 0.22);
+  const handleW = Math.round(bagW * (isBirkin ? 0.26 : 0.34));
+  const handleH = Math.round(bagW * (isBirkin ? 0.26 : 0.22));
+  const handleXs = isBirkin ? [31, 69] : [50];
   const hRx = (handleW - handleThick) / 2;
   const hRy = handleH - handleThick / 2;
   const handlePath = `M ${handleThick / 2} ${handleH} A ${hRx} ${hRy} 0 0 1 ${handleW - handleThick / 2} ${handleH}`;
@@ -271,12 +277,13 @@ export function Konfigurator() {
                     )}
                   </svg>
                 )}
-                {shape.handle && (
-                  <svg width={handleW} height={handleH} viewBox={`0 0 ${handleW} ${handleH}`} style={{ position: "absolute", bottom: -2, left: "50%", transform: "translateX(-50%)", overflow: "visible" }} aria-hidden="true">
+                {shape.handle && handleXs.map((hx, i) => (
+                  <svg key={i} width={handleW} height={handleH} viewBox={`0 0 ${handleW} ${handleH}`} style={{ position: "absolute", bottom: -2, left: `${hx}%`, transform: "translateX(-50%)", overflow: "visible" }} aria-hidden="true">
                     <path d={handlePath} fill="none" stroke={primaryHex} strokeWidth={handleThick} strokeLinecap="round" style={{ transition: "stroke var(--dur-base) var(--ease-soft)" }} />
-                    <path d={handlePath} fill="none" stroke="rgba(255,255,255,0.28)" strokeWidth={handleThick - 4} strokeLinecap="round" strokeDasharray="1 5" />
+                    <path d={handlePath} fill="none" stroke="rgba(0,0,0,0.16)" strokeWidth={handleThick} strokeLinecap="round" strokeDasharray="0.5 4.5" />
+                    <path d={handlePath} fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth={handleThick - 4} strokeLinecap="round" strokeDasharray="1 5" />
                   </svg>
-                )}
+                ))}
               </div>
 
               {/* Bag body */}
@@ -297,7 +304,22 @@ export function Konfigurator() {
                   }}
                 >
                   {shape.flap && (
-                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "38%", backgroundColor: primaryHex, backgroundImage: dotLayer, backgroundSize: "11px 11px", borderRadius: "0 0 18px 18px", boxShadow: "0 4px 8px rgba(0,0,0,0.16)", transition: "background-color var(--dur-base) var(--ease-soft)" }} />
+                    <>
+                      {/* Two side straps emerging from under the flap, each with a gold tab */}
+                      {[30, 70].map((sx) => (
+                        <div key={sx} style={{ position: "absolute", top: "30%", left: `${sx}%`, transform: "translateX(-50%)", width: Math.max(9, Math.round(11 * f)), height: "24%", backgroundColor: primaryHex, backgroundImage: "linear-gradient(90deg, rgba(0,0,0,0.24), rgba(255,255,255,0.16) 45%, rgba(0,0,0,0.24))", borderRadius: 4, boxShadow: "0 1px 2px rgba(0,0,0,0.24)", zIndex: 3 }}>
+                          <div style={{ position: "absolute", bottom: 2, left: "50%", transform: "translateX(-50%)", width: 5, height: 9, borderRadius: 1, background: metalDef.grad, boxShadow: "0 1px 1px rgba(0,0,0,0.3)", transition: "background var(--dur-base) var(--ease-soft)" }} />
+                        </div>
+                      ))}
+                      {/* Flap covering the top of the bag */}
+                      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", backgroundColor: primaryHex, backgroundImage: dotLayer, backgroundSize: "11px 11px", borderRadius: "0 0 16px 16px", boxShadow: "0 5px 9px rgba(0,0,0,0.2)", transition: "background-color var(--dur-base) var(--ease-soft)", zIndex: 4 }} />
+                      {/* Turn-lock plate + hanging padlock at the flap edge */}
+                      <div style={{ position: "absolute", top: "40%", left: "50%", transform: "translate(-50%, -58%)", zIndex: 5, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <div style={{ width: Math.round(26 * f), height: Math.round(9 * f), borderRadius: 2, background: metalDef.grad, boxShadow: "0 1px 2px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.5)", transition: "background var(--dur-base) var(--ease-soft)" }} />
+                        <div style={{ width: Math.round(9 * f), height: Math.round(6 * f), borderRadius: "6px 6px 0 0", border: `${Math.max(2, Math.round(2 * f))}px solid ${metalDef.solid}`, borderBottom: "none", boxSizing: "border-box", marginTop: 1 }} />
+                        <div style={{ width: Math.round(13 * f), height: Math.round(12 * f), borderRadius: 2, background: metalDef.grad, boxShadow: "0 2px 3px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.45)", marginTop: -1, transition: "background var(--dur-base) var(--ease-soft)" }} />
+                      </div>
+                    </>
                   )}
                   {shape.pleats && (
                     <div style={{ position: "absolute", inset: 0, backgroundImage: "repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0 2px, rgba(255,255,255,0.05) 2px 4px, transparent 4px 20px)" }} />
@@ -310,11 +332,6 @@ export function Konfigurator() {
                   {/* Hand insert — a recessed reach-through opening at the top, with a raised front lip */}
                   {showInsert && (
                     <div aria-hidden="true" style={{ position: "absolute", top: insertTop, left: "50%", transform: "translate(-50%, -50%)", width: "54%", height: insertH, borderRadius: 999, background: "linear-gradient(180deg, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.32) 48%, rgba(0,0,0,0.2) 100%)", boxShadow: "inset 0 4px 7px rgba(0,0,0,0.55), inset 0 -3px 4px rgba(255,255,255,0.18), 0 2px 2px rgba(255,255,255,0.25)", zIndex: 2 }} />
-                  )}
-
-                  {/* Clasp — follows the metal finish */}
-                  {shape.lock && (
-                    <div style={{ position: "absolute", top: "38%", left: "50%", transform: "translate(-50%, -45%)", width: 16, height: 20, borderRadius: 4, background: metalDef.grad, boxShadow: `0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4)`, transition: "background var(--dur-base) var(--ease-soft)", zIndex: 3 }} />
                   )}
 
                   {/* Charms scattered across the bag front, each on its own thread */}
@@ -362,6 +379,10 @@ export function Konfigurator() {
                 </div>
               )}
             </div>
+
+            <p style={{ margin: "12px 2px 0", fontFamily: "var(--font-body)", fontSize: 12.5, lineHeight: 1.5, color: "var(--ink-soft)", textAlign: "center" }}>
+              {t.previewNote}
+            </p>
 
             {/* Made examples for the selected bag — drop real photos here (replaceable) */}
             <div className="konf-examples">
